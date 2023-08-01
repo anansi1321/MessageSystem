@@ -21,11 +21,11 @@
 						<ul class="actions vertical">
 							<li><h5>회원정보수정</h5></li>
 							<%--Ex08. 개인정보수정 기능 만들기 : 사용자의 새로운 정보를 입력받고 DB에 저장된 정보를 수정하는 기능을 만들어 봅시다. --%>
-								<form>
-									<li>접속한 Email : 접속한 사용자의 이메일을 출력~</li>
-									<li><input type="password" placeholder="PW를 입력하세요" style="width: 500px; margin: 0 auto;"></li>
-									<li><input type="text" placeholder="전화번호를 입력하세요" style="width: 500px; margin: 0 auto;"></li>
-									<li><input type="text" placeholder="집주소를 입력하세요" style="width: 500px; margin: 0 auto;"></li>
+								<form action="update.do" method="post">
+									<li>접속한 Email : ${user.email}</li>
+									<li><input type="password" value="${user.pw}" name="pw" placeholder="PW를 입력하세요" style="width: 500px; margin: 0 auto;"></li>
+									<li><input type="text" value="${user.tel}" name="tel" placeholder="전화번호를 입력하세요" style="width: 500px; margin: 0 auto;"></li>
+									<li><input type="text" value="${user.address }" name="address"  placeholder="집주소를 입력하세요" style="width: 500px; margin: 0 auto;"></li>
 									<li><input type="submit" value="UPDATE" class="button fit" style="width: 500px; margin: 0 auto;"></li>
 								</form>
 						</ul>

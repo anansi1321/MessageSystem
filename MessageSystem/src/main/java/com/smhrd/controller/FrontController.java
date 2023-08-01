@@ -21,8 +21,28 @@ public class FrontController extends HttpServlet {
 		
 		handlerMapping = new HashMap<String, Controller>();
 		
+		// 메인페이지 이동
 		handlerMapping.put("/goMain.do", new GoMainCon() );
-	
+		// Ex.06 회원가입 기능 만들기
+		handlerMapping.put("/join.do", new JoinCon() );
+		// Ex07. 로그인 기능 만들기
+		handlerMapping.put("/login.do", new LoginCon() );
+		// Ex08. 개인정보수정 페이지로 이동
+		handlerMapping.put("/goUpdate.do", new GoUpdateCon() );
+		// Ex08. 개인정보수정 기능 만들기
+		handlerMapping.put("/update.do", new UpdateCon() );
+		// Ex10. 게시글 목록 출력 기능 만들기
+		handlerMapping.put("/goBoard.do", new GoBoardCon() );
+		// Ex11. 게시글 상세보기 기능 만들기
+		handlerMapping.put("/goView.do", new GoViewCon() );
+		// Ex12. 게시글 작성하러 가기
+		handlerMapping.put("/goWrite.do", new GoWriteCon() );
+		// Ex12. 게시글 작성하기
+		handlerMapping.put("/write.do", new WriteCon() );
+		// Ex13. 아이디 중복체크
+		handlerMapping.put("/emailCheck.do", new EmailCheckCon() );
+		// Ex14. 게시글 검색하기
+		handlerMapping.put("/search.do", new SearchRestCon() );
 	}
 	
 	

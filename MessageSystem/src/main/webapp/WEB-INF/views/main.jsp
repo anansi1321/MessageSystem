@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -16,8 +17,15 @@
 					<header id="header" class="alt">
 						<a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
 						<nav>
-								<a href="#menu">로그인</a>
 							<!--Ex07. 로그인 한 상태라면 '게시판'버튼과 '개인정보수정', '로그아웃' 버튼을 출력하시오. -->
+								<c:if test="${empty user}">
+									<a href="#menu">로그인</a>
+								</c:if>
+								<c:if test="${!empty user}">
+									<a href="goBoard.do">게시판</a>
+									<a href="goUpdate.do">개인정보수정</a>
+									<a href="#">로그아웃</a>
+								</c:if>
 						</nav>
 					</header>
 
@@ -26,20 +34,21 @@
 						<ul class="links">
 							<%--Ex07. 로그인 기능 만들기 : 사용자에게 정보를 입력받아 회원인지 아닌지 조회하는 기능을 만들어 봅시다. --%>
 							<li><h5>로그인</h5></li>
-								<form>
-									<li><input type="text"  placeholder="Email을 입력하세요"></li>
-									<li><input type="password"  placeholder="PW를 입력하세요"></li>
+								<form action="login.do" method="post">
+									<li><input name="email" type="text"  placeholder="Email을 입력하세요"></li>
+									<li><input name="pw" type="password"  placeholder="PW를 입력하세요"></li>
 									<li><input type="submit" value="LogIn" class="button fit"></li>
 								</form>
 						</ul>
 						<ul class="actions vertical">
 							<%--Ex06. 회원가입 기능 만들기 : 사용자에게 정보를 입력받아 저장하는 기능을 만들어 봅시다. --%>
 							<li><h5>회원가입</h5></li>
-								<form>
-									<li><input type="text"  placeholder="Email을 입력하세요"></li>
-									<li><input type="password"  placeholder="PW를 입력하세요"></li>
-									<li><input type="text"  placeholder="전화번호를 입력하세요"></li>
-									<li><input type="text"  placeholder="집주소를 입력하세요"></li>
+								<form action="join.do" method="post">
+									<li><input id="checkInput" name="email" type="text"  placeholder="Email을 입력하세요"></li>
+									<p id="checkResult"></p>
+									<li><input name="pw" type="password"  placeholder="PW를 입력하세요"></li>
+									<li><input name="tel" type="text"  placeholder="전화번호를 입력하세요"></li>
+									<li><input name="address" type="text"  placeholder="집주소를 입력하세요"></li>
 									<li><input type="submit" value="JoinUs" class="button fit"></li>
 								</form>
 						</ul>
@@ -49,7 +58,12 @@
 						<div class="inner">
 							<header class="major">
 								<%--Ex07. 로그인 후 로그인 한 사용자의 세션아이디로 바꾸시오. ex)smart님 환영합니다 --%>
-									<h1>로그인 한 세션아이디를 출력해주세요</h1>
+									<c:if test="${empty user}">
+										<h1>로그인 한 세션아이디를 출력해주세요</h1>
+									</c:if>
+									<c:if test="${!empty user}">
+										<h1>${user.email}님 환영합니다.</h1>
+									</c:if>
 							</header>
 							<div class="content">
 								<p>아래는 지금까지 배운 웹 기술들입니다.<br></p>
@@ -173,7 +187,12 @@
 									<div class="contact-method">
 										<span class="icon alt fa-envelope"></span>
 										<h3>Email</h3>
+										<c:if test="${empty user}">
 										<a href="#">로그인 한 사람의 이메일을 출력</a>
+										</c:if>
+										<c:if test="${!empty user}">
+										<a href="#">${user.email}</a>
+										</c:if>
 										<!-- 로그인 한 사용자의 이메일을 출력하시오 -->
 									</div>
 								</section>
@@ -181,7 +200,12 @@
 									<div class="contact-method">
 										<span class="icon alt fa-phone"></span>
 										<h3>Phone</h3>
+										<c:if test="${empty user}">
 										<span>로그인 한 사람의 전화번호를 출력</span>
+										</c:if>
+										<c:if test="${!empty user}">
+										<span>${user.tel}</span>
+										</c:if>
 										<!-- 로그인 한 사용자의 전화번호를 출력하시오 -->
 									</div>
 								</section>
@@ -189,7 +213,12 @@
 									<div class="contact-method">
 										<span class="icon alt fa-home"></span>
 										<h3>Address</h3>
+										<c:if test="${empty user}">
 										<span>로그인 한 사람의 집주소를 출력</span>
+										</c:if>
+										<c:if test="${!empty user}">
+										<span>${user.address}</span>
+										</c:if>
 										<!-- 로그인 한 사용자의 집주소를 출력하시오 -->
 									</div>
 								</section>
@@ -223,6 +252,7 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/Ex13.js"></script>
 
 	</body>
 </html>

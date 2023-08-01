@@ -21,14 +21,14 @@
 				<td>제목</td>
 				<td>
 					<%--게시글 제목 출력 --%>
-					즐거운 JSP
+					${board.title}
 				</td>
 			</tr>
 			<tr>
 				<td>작성자</td>
 				<td>
 					<%--작성자 출력 --%>
-					smart
+					${board.writer}
 				</td>
 			</tr>
 			<tr>
@@ -37,13 +37,15 @@
 			<tr>
 				<td colspan="2">
 					<%--게시글 내용 출력 --%>
-					즐거운 JSP 수업 시간~
+					${board.content }
+					
+					<img src="save/${board.img}">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<%-- 클릭시 boardMain으로 돌아갈 수 있게 수정해봅시다. --%>
-					<a href="boardMain.jsp"><button>뒤로가기</button></a>
+					<a href="goBoard.do"><button>뒤로가기</button></a>
 				</td>
 			</tr>
 		</table>

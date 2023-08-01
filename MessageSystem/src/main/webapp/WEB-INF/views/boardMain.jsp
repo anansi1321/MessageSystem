@@ -1,6 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,25 +21,31 @@
 		<table id="list">
 			<thead>
 				<tr>
+					<td colspan="3"> <input type="text" id="searchInput"> </td>
+					<td > <button type="button" id="searchBtn">검색하기</button> </td>
+				</tr>
+				<tr>	
 					<td>번호</td>
 					<td>제목</td>
 					<td>작성자</td>
 					<td>시간</td>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="tbd">
 				<%--Ex10.게시글 목록을 출력해봅시다. --%>
 				<%--예시) --%>
-				<tr>
-					<td>1</td>
-					<td><a href="#">즐거운 JSP</a></td>
-					<td>smart</td>
-					<td>2023.07.28 15:44:00</td>
-				</tr>
+				<c:forEach var="board" items="${list}">
+					<tr>
+						<td>${board.idx}</td>
+						<td><a href="goView.do?idx=${board.idx}">${board.title}</a></td>
+						<td>${board.writer}</td>
+						<td>${board.indate}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 
-		<a href="writerBoard.jsp"><button id="writer">작성하러가기</button></a>
+		<a href="goWrite.do"><button id="writer">작성하러가기</button></a>
 	</div>
 
 
@@ -50,5 +57,6 @@
 	<script src="assets/js/util.js"></script>
 	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/Ex14.js"></script>
 </body>
 </html>
