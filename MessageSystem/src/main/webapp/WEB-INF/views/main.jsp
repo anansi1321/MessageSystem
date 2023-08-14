@@ -141,7 +141,7 @@
 										<h2>메세지 확인하기</h2>
 									</header>
 									<%-- chatting 기능을 만들어 봅시다! --%>
-									<div class="container chat">
+									<div class="container chat" id="messageBox">
 									
 										<div class="other">
 											<p>보낸사람 이름 :</p>
@@ -175,7 +175,7 @@
 										<textarea  id="message" rows="6"></textarea>
 									</div>
 									<ul class="actions">
-										<li><input type="button" value="Send Message" class="special" /></li>
+										<li><input id="sendBtn" type="button" value="Send Message" class="special" /></li>
 										<li><input type="reset" value="Clear" /></li>
 									</ul>
 								</form>
@@ -253,7 +253,92 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/Ex13.js"></script>
+			<c:if test="${!empty user}">
+			<script type="text/javascript">
+			      // 「WebSocketEx」는 프로젝트 명
+			      // 「websocket」는 호스트 명
+			      // WebSocket 오브젝트 생성 (자동으로 접속 시작한다. - onopen 함수 호출)
+			      let webSocket;
+			      const messageTextArea = $("#messageBox");
+			      user = '${user.email}'
+			      $(document).ready(function() {
+			    	  
+			    	  messageTextArea.html('');
+			    	  
+				      webSocket = new WebSocket("ws://localhost:8081/MessageSystem/websocket");
+				      // 콘솔 텍스트 에리어 오브젝트
+				      // WebSocket 서버와 접속이 되면 호출되는 함수
+				      webSocket.onopen = function(message) {
+				        // 콘솔 텍스트에 메시지를 출력한다.
+				        messageTextArea.append("<p class='mychat'>Server connect...\n</p>");
+				      };
+				      // WebSocket 서버와 접속이 끊기면 호출되는 함수
+				      webSocket.onclose = function(message) {
+				        // 콘솔 텍스트에 메시지를 출력한다.
+				        messageTextArea.append("<p class='mychat'>Server Disconnect...\n</p>");
+				      };
+				      // WebSocket 서버와 통신 중에 에러가 발생하면 요청되는 함수
+				      webSocket.onerror = function(message) {
+				        // 콘솔 텍스트에 메시지를 출력한다.
+				        messageTextArea.append("<p class='mychat'>error...\n</p>");
+				      };
+				      // WebSocket 서버로 부터 메시지가 오면 호출되는 함수
+				      webSocket.onmessage = function(message) {
+				        // 콘솔 텍스트에 메시지를 출력한다.
+				        
+				        var msg = JSON.parse(message.data);
+				      	console.log(msg.email + " : " + user);
+				        
+				        if(msg.email != user){
+				        	console.log('gd')
+				        	html = `
+							<div class="other">
+								<p>\${msg.email} :</p>
+								<p>\${msg.message}</p>
+							</div>
+				        	`;
+				        	
+				        	messageTextArea.append(html);
+				        }
+				        
+				      };
+				      
+				      $('#sendBtn').on('click', sendMessage);
+			      });
+			      
+			     // Send 버튼을 누르면 호출되는 함수
+			    function sendMessage() {
+			      // 송신 메시지를 작성하는 텍스트 박스 오브젝트를 취득한다.
+			      var message = $("#message");
+			      // 콘솔 텍스트에 메시지를 출력한다.
+			      let today = new Date();   
 
+			      msg = {
+			    		  'email' : user,
+			    		  'message' : message.val(),
+			    		  'indate' : today.toLocaleDateString() + ' ' + today.toLocaleTimeString()
+			      }
+			      
+			      html = `
+			    	<div class="mychat">
+						<p>\${message.val()}</p>
+					</div>
+			      `;
+			      
+			      messageTextArea.append(html);
+			      // WebSocket 서버에 메시지를 송신한다.
+			      webSocket.send(JSON.stringify(msg));
+			      // 송신 메시지를 작성하는 텍스트 박스를 초기화한다.
+			      message.val('');
+			    }
+			    			     
+			    // Disconnect 버튼을 누르면 호출되는 함수
+			    function disconnect() {
+			      // WebSocket 접속 해제
+			      webSocket.close();
+			    }
+			  </script>
+			  </c:if>
 	</body>
 </html>
 
